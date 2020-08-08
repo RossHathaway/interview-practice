@@ -12,35 +12,44 @@ Examples
 "(}"       =>  False
 "[(])"     =>  False
 "[({})](]" =>  False
+
 */
 
 function validBraces(braces) {
-    //   [({}])
-    // [(]
+    //     debugger
+
     let openedBraces = []
     for (let char of braces) {
         //     check type and direction of brace
 
-        if (['[', '{', '['].includes(char)) {
+        if (['[', '{', '('].includes(char)) {
             openedBraces.push(char)
         } else {
             let partnerBrace
-            if (char === '[') {
-                partnerBrace = ']'
+            if (char === ']') {
+                partnerBrace = '['
             } else if (char === '}') {
-                partnerBrace = '}'
+                partnerBrace = '{'
             } else if (char === ')') {
                 partnerBrace = '('
             }
 
             const partnerIndex = openedBraces.lastIndexOf(partnerBrace)
             // make sure that all braces inside that are closed
-            if (partnerIndex !== openBraces.length - 2) {
+            if (partnerIndex !== openedBraces.length - 2) {
                 return false
             }
             // remove all closed braces from openBraces
-            openBraces = openBraces.slice(partnerIndex, openBraces.length)
+            openedBraces = openedBraces.slice(partnerIndex, openedBraces.length)
 
         }
     }
 }
+
+console.log(validBraces("([)]")) // false
+console.log(validBraces("()")) // true
+console.log(validBraces("{}[]()")) // true
+console.log(validBraces("{[}]")) // false
+console.log(validBraces("{[}]")) // false
+console.log(validBraces("[{()()}({[]})]({}[({})])((((((()[])){}))[]{{{({({({{{{{{}}}}}})})})}}}))[][][]")) // true
+console.log(validBraces("{}[]()")) // true
